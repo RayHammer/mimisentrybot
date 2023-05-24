@@ -64,8 +64,15 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		switch {
 		case strings.HasPrefix(cmd, "help"):
 			_, _ = s.ChannelMessageSend(m.ChannelID, "no one's gonna come to help you")
+			break
 		case strings.HasPrefix(cmd, "suck"):
 			_, _ = s.ChannelMessageSend(m.ChannelID, "hehe good boy")
+			break
+		case strings.HasPrefix(cmd, "loveme"):
+			_, _ = s.ChannelMessageSend(m.ChannelID, "you're fucking pathetic")
+			break
+		case strings.HasPrefix(cmd, "sandwich"):
+			_, _ = s.ChannelMessageSend(m.ChannelID, "https://www.youtube.com/watch?v=Nut7I7gdE7A")
 			break
 		}
 	}
