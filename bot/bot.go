@@ -53,7 +53,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.HasPrefix(m.Content, config.Prefix) {
-		cmd, _ := strings.CutPrefix(m.Content, config.Prefix)
+		cmd := strings.TrimPrefix(m.Content, config.Prefix)
 		if cmd == "suck" {
 			_, _ = s.ChannelMessageSend(m.ChannelID, "hehe good boy")
 		}
