@@ -1,6 +1,7 @@
 package bot
 
 import (
+	"container/list"
 	"fmt"
 	"log"
 	"mimisentry/config"
@@ -14,6 +15,7 @@ import (
 
 var BotID string
 var goBot *discordgo.Session
+var cmds list.List
 
 func Run() bool {
 	// create bot session
@@ -36,6 +38,10 @@ func Run() bool {
 	if err != nil {
 		return false
 	}
+
+	cmds = *list.New()
+	cmds.PushBack("")
+
 	fmt.Println("The abomination is running. Press Ctrl-C to kill it.")
 
 	sc := make(chan os.Signal, 1)
@@ -46,6 +52,7 @@ func Run() bool {
 
 	return true
 }
+
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	// Ignore all messages created by the bot itself
 	if m.Author.ID == BotID {
@@ -54,8 +61,12 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if strings.HasPrefix(m.Content, config.Prefix) {
 		cmd := strings.TrimPrefix(m.Content, config.Prefix)
-		if cmd == "suck" {
+		switch {
+		case strings.HasPrefix(cmd, "help"):
+			_, _ = s.ChannelMessageSend(m.ChannelID, "no one's gonna come to help you")
+		case strings.HasPrefix(cmd, "suck"):
 			_, _ = s.ChannelMessageSend(m.ChannelID, "hehe good boy")
+			break
 		}
 	}
 }
